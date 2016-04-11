@@ -75,6 +75,16 @@ class UsersController extends AppController
         $this->set('title', 'Adding Administrative User');
         $this->set('sub','Please Add User Details');
         $this->set('bc','<a href=\'/Users/\'>Users</a>  / Add');
+
+        $shart = $this->AuthUser->id('role');
+
+        if($shart == 'admin'){
+            $this->set('roles',['admin'=>'admin','normal'=>'normal','satan'=>'satan']);
+        }
+        else {
+            $this->set('roles',['normal'=>'normal']);
+        }
+
     }
 
     /**
@@ -104,6 +114,16 @@ class UsersController extends AppController
         $this->set('title', 'Edit User '.$more);
         $this->set('sub','Editing User Details');
         $this->set('bc','<a href=\'/Users/\'>Users</a>  / Edit  /  '.$more);
+        $this->set('roles',['admin'=>'admin','normal'=>'normal']);
+
+        $shart = $this->AuthUser->id('role');
+
+        if($shart == 'admin'){
+            $this->set('roles',['admin'=>'admin','normal'=>'normal','satan'=>'satan']);
+        }
+        else {
+            $this->set('roles',['normal'=>'normal']);
+        }
     }
 
     /**

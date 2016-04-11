@@ -4,7 +4,7 @@
     <div class="form-group"><?= $this->Form->input('password',['class'=>'form-control','placeholder'=>'Password','label' => false]) ?></div>
     <div class="form-group"><?= $this->Form->input('role', array(
         'type' => 'select',
-        'options' => ['admin'=>'admin','normal'=>'normal'],
+        'options' => $roles,
         'multiple' => false,
         'required' => true,
         'label' => false,
@@ -13,6 +13,6 @@
         )); ?></div>
 
 </fieldset>
-<?= $this->Form->button(__('Add New Admin user'),['class' => 'btn btn-primary','style'=>'margin:25px;']); ?><a class="btn btn-primary" style="margin-left:25px;" href="/Users">Cancel</a>
+<?= $this->Form->button(__('Edit Admin user'),['class' => 'btn btn-primary','style'=>'margin:25px;']); ?><a class="btn btn-primary" style="margin-left:25px;" href="/Users">Cancel</a>
 
 <?= $this->Form->end() ?>

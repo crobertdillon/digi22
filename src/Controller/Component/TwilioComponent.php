@@ -25,9 +25,12 @@ class TwilioComponent extends Component
             "To" => $send,
             "Body" => $mess,
         ));
+        $messerr = "";
         $messret = "Sent message {$sms->sid}";
         $messwork = $sms->status;
-        $messerr = $sms->errormessage;
+        if($sms->errormessage) {
+            $messerr = $sms->errormessage;
+        }
         $retval = array(
             "retval" => $messret,
             "status" => $messwork,

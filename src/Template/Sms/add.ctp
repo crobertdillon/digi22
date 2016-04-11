@@ -7,6 +7,16 @@
 
             echo $this->Form->hidden('sender',['value' => $cuser]);
             echo $this->Form->textarea('mess',['maxlength'=>'160','style'=>'width:450px;height:80px;']);
+            echo "<h6>Send to Which List?</h6>";
+            echo $this->Form->input('list', array(
+            'type' => 'select',
+            'options' => $slists,
+            'multiple' => false,
+            'required' => true,
+            'label' => false,
+            'class' => 'form-control',
+            'default' => [1]
+            ));
             echo $this->Form->hidden('utc',['value' => $narf]);
         ?>
     </fieldset>

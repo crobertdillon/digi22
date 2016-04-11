@@ -4,7 +4,7 @@
     <div class="form-group"><?= $this->Form->input('password',['class'=>'form-control','placeholder'=>'Password','label' => false]) ?></div>
     <div class="form-group"><?= $this->Form->input('role', array(
         'type' => 'select',
-        'options' => ['admin'=>'admin','normal'=>'normal'],
+        'options' => $roles,
         'multiple' => false,
         'required' => true,
         'label' => false,

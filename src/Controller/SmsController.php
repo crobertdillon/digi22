@@ -79,16 +79,47 @@ class SmsController extends AppController
             $sm = $this->Sms->patchEntity($sm, $this->request->data);
             $messy = $this->request->data;
             $mess = $messy['mess'];
-
-            $phony = TableRegistry::get('Phone');
-            $query = $phony->find();
+            $list = $messy['list'];
+            $utc = $messy['utc'];
+            $plu = TableRegistry::get('Phone');
+            $phony = TableRegistry::get('Worklist');
+            $query = $phony
+                ->find()
+                ->where(['listid' => $list]);
             foreach ($query as $nummy) {
-                $nardo = $nummy['phone'];
-                $this->Twilio->sendSms($nardo,$mess);
-            }
+                $pid = $nummy['phoneid'];
 
+                $furry = $plu
+                    ->find()
+                    ->select('phone')
+                    ->where(['id'=>$pid])
+                    ->first();
+
+                //debug($furry);
+
+                $nardo = $furry->phone;
+                $retval = "";
+                $status = "";
+                $err = "";
+                $frodo = $this->Twilio->sendSms($nardo,$mess);
+                $ret = $frodo['retval'];
+                $status = $frodo['status'];
+                $err = $frodo['err'];
+                $messval = $ret."|".$status."|".$err;
+                $utc = time();
+                $logsms = TableRegistry::get('SmsLog');
+                $log = $logsms->newEntity();
+                $log->phone = $nardo;
+                $log->smsid = $list;
+                $log->message = $mess;
+                $log->retval = $messval;
+                $log->utc = $utc;
+                $logsms->save($log);
+
+
+            }
             if ($this->Sms->save($sm)) {
-                $this->Flash->success(__('The sm has been saved.'));
+                $this->Flash->success(__('The sms has been sent.'));
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The sm could not be saved. Please, try again.'));
@@ -97,6 +128,9 @@ class SmsController extends AppController
 
         $this->set(compact('sm'));
         $this->set('_serialize', ['sm']);
+
+        $list = TableRegistry::get('Smslist');
+        $this->set('slists', $list->find('list'));
 
         $this->set('cuser',$this->AuthUser->id('username'));
 
